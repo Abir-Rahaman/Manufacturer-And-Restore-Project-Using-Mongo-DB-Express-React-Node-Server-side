@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors');
 const app = express()
 const jwt = require('jsonwebtoken');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 4000;
 require ('dotenv').config();
 
@@ -23,6 +23,14 @@ async function run() {
             const cursor = computerCollection.find(query)
             const result = await cursor.toArray()
             res.send(result);
+        })
+
+         // get single tools [http://localhost:4000/computer/${id}]
+        app.get('/computer/:id',async(req,res) =>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await computerCollection.findOne(query);
+            res.send(result)
         })
        
     }

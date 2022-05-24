@@ -16,6 +16,7 @@ async function run() {
     try {
         await client.connect();
         const computerCollection = client.db("Computer_Shop").collection("Parts");
+        const bookingCollection = client.db("Computer_Shop").collection("booking");
 
         // get all tools [http://localhost:4000/computer]
         app.get('/computer', async(req,res)=>{
@@ -30,6 +31,21 @@ async function run() {
             const id = req.params.id;
             const query = {_id: ObjectId(id)};
             const result = await computerCollection.findOne(query);
+            res.send(result)
+        })
+
+        // insert booking using insertOne [http://localhost:4000/booking]
+        app.post('/booking',async(req,res)=>{
+            const booking = req.body;
+            const result = await bookingCollection.insertOne(booking)
+            res.send(result)
+        })
+
+        // get booking user [http://localhost:4000/booking]
+        app.get('/booking',async(req,res)=>{
+            const bookingEmail = req.query.bookingEmail;
+            const query = {bookingEmail:bookingEmail};
+            const result = await bookingCollection.find(query).toArray()
             res.send(result)
         })
        

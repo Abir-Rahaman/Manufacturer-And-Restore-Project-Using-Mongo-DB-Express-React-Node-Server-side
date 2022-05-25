@@ -115,6 +115,15 @@ async function run() {
             res.send(result)
         })
 
+        // payment get Api [http://localhost:4000/booking/${id}]
+        app.get('/booking/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await bookingCollection.findOne(query);
+            res.send(result)
+
+        })
+
        
     }
     finally{

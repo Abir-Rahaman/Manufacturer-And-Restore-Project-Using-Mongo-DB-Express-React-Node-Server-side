@@ -18,6 +18,7 @@ async function run() {
         const computerCollection = client.db("Computer_Shop").collection("Parts");
         const bookingCollection = client.db("Computer_Shop").collection("booking");
         const userCollection = client.db("Computer_Shop").collection("user");
+        const reviewCollection = client.db("Computer_Shop").collection("Review");
 
         // get all tools [http://localhost:4000/computer]
         app.get('/computer', async(req,res)=>{
@@ -96,6 +97,21 @@ async function run() {
         app.post('/tools' ,async(req,res)=>{
             const tools = req.body
             const result = await computerCollection.insertOne(tools)
+            res.send(result)
+        })
+
+        // get all review [http://localhost:4000/review]
+        app.get('/review', async(req,res)=>{
+            const query = {}
+            const cursor = reviewCollection.find(query)
+            const result = await cursor.toArray()
+            res.send(result);
+        })
+
+        // insert review by user [http://localhost:4000/Review]
+        app.post('/Review' ,async(req,res)=>{
+            const Review = req.body
+            const result = await reviewCollection.insertOne(Review)
             res.send(result)
         })
 

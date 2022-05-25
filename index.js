@@ -23,6 +23,7 @@ async function run() {
         const bookingCollection = client.db("Computer_Shop").collection("booking");
         const userCollection = client.db("Computer_Shop").collection("user");
         const reviewCollection = client.db("Computer_Shop").collection("Review");
+        const paymentCollection = client.db("Computer_Shop").collection("payments");
 
         // get all tools [http://localhost:4000/computer]
         app.get('/computer', async(req,res)=>{
@@ -101,6 +102,21 @@ async function run() {
             });
             res.send({clientSecret : paymentIntent.client_secret})
              
+          })
+
+          app.patch('/booking/:id',async(req,res)=>{
+            const id = req.params.id;
+            const payment = req.body;
+            const filter = {_id: ObjectId(id)}
+            const updateDoc = {
+              $set:{
+                paid:true,
+                transactionId : payment.transaction,
+              }
+            }
+            const result = await paymentCollection.insertOne(payment)
+            const updateBooking = await bookingCollection.updateOne(filter,updateDoc)
+            res.send(updateBooking)
           })
 
 

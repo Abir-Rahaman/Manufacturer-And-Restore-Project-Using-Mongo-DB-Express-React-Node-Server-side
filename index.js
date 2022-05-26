@@ -24,6 +24,7 @@ async function run() {
         const userCollection = client.db("Computer_Shop").collection("user");
         const reviewCollection = client.db("Computer_Shop").collection("Review");
         const paymentCollection = client.db("Computer_Shop").collection("payments");
+        const userProfileCollection = client.db("Computer_Shop").collection("profile");
 
         // get all tools [http://localhost:4000/computer]
         app.get('/computer', async(req,res)=>{
@@ -131,8 +132,15 @@ async function run() {
 
         // add tools [http://localhost:4000/tools]
         app.post('/tools' ,async(req,res)=>{
+            const ProfileData = req.body
+            const result = await computerCollection.insertOne(ProfileData)
+            res.send(result)
+        })
+
+        // Save Profile Data [http://localhost:4000/profile]
+        app.post('/profile' ,async(req,res)=>{
             const tools = req.body
-            const result = await computerCollection.insertOne(tools)
+            const result = await userProfileCollection.insertOne(tools)
             res.send(result)
         })
 
@@ -144,9 +152,7 @@ async function run() {
             const option = { upsert : true}
             const updateDoc ={
             $set:{
-            
                 quantity : updateQuantity.newQuantity
-            
             }
             }
             const result = await computerCollection.updateOne(filter,updateDoc,option);

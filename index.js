@@ -104,6 +104,7 @@ async function run() {
              
           })
 
+        // Update & Insert Payment Method 
           app.patch('/booking/:id',async(req,res)=>{
             const id = req.params.id;
             const payment = req.body;
@@ -134,6 +135,25 @@ async function run() {
             const result = await computerCollection.insertOne(tools)
             res.send(result)
         })
+
+       // update Quantity Using Put Api By id [http://localhost:4000/tools/${id}]
+        app.put('/tools/:id' ,async(req,res) =>{
+            const id = req.params.id;
+            const updateQuantity = req.body;
+            const filter = {_id:ObjectId(id)}
+            const option = { upsert : true}
+            const updateDoc ={
+            $set:{
+            
+                quantity : updateQuantity.newQuantity
+            
+            }
+            }
+            const result = await computerCollection.updateOne(filter,updateDoc,option);
+            res.send(result);
+        })        
+
+            
 
         // get all review [http://localhost:4000/review]
         app.get('/review', async(req,res)=>{

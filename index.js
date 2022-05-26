@@ -30,6 +30,13 @@ async function run() {
         app.get('/computer', async(req,res)=>{
             const query = {}
             const cursor = computerCollection.find(query)
+            const result = await cursor.limit(3).toArray()
+            res.send(result);
+        })
+        
+        app.get('/allComputer', async(req,res)=>{
+            const query = {}
+            const cursor = computerCollection.find(query)
             const result = await cursor.toArray()
             res.send(result);
         })
@@ -130,18 +137,20 @@ async function run() {
             res.send({admin:isAdmin})
         })
 
-        // add tools [http://localhost:4000/tools]
-        app.post('/tools' ,async(req,res)=>{
+       
+        // Save Profile Data [http://localhost:4000/profile]
+        app.post('/profile' ,async(req,res)=>{
             const ProfileData = req.body
-            const result = await computerCollection.insertOne(ProfileData)
+            const result = await userProfileCollection.insertOne(ProfileData)
             res.send(result)
         })
 
-        // Save Profile Data [http://localhost:4000/profile]
-        app.post('/profile' ,async(req,res)=>{
-            const tools = req.body
-            const result = await userProfileCollection.insertOne(tools)
-            res.send(result)
+
+        // add tools [http://localhost:4000/tools]
+        app.post('/computer',async(req,res)=>{
+            const computerTools = req.body;
+            const result = await computerCollection.insertOne(computerTools)
+            res.send(result);
         })
 
        // update Quantity Using Put Api By id [http://localhost:4000/tools/${id}]
@@ -184,6 +193,15 @@ async function run() {
             res.send(result)
 
         })
+
+
+        app.delete( '/tools/:id' ,async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id:ObjectId(id)}
+            const result = await computerCollection.deleteOne(query);
+              res.send(result)
+          
+          })
 
        
     }

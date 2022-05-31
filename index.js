@@ -10,7 +10,13 @@ const stripe = require("stripe")(process.env.SECRET_STRIPE_KEY);
 const port = process.env.PORT || 4000;
 
 
-app.use(cors())
+app.use(
+    cors({
+      origin: true,
+      optionsSuccessStatus: 200,
+      credentials: true,
+    })
+  );
 app.use(express.json())
 
 const uri = `mongodb+srv://${process.env.NAME}:${process.env.PASS}@computer-shop.oyvkd.mongodb.net/?retryWrites=true&w=majority";`;

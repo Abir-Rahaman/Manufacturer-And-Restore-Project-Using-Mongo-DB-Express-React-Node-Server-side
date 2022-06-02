@@ -10,7 +10,7 @@ const stripe = require("stripe")(process.env.SECRET_STRIPE_KEY);
 const port = process.env.PORT || 4000;
 
 
-app.use(cors({origin:'https://assignment-12-authentication.web.app/'}))
+app.use(cors({origin:'https://assignment-12-authentication.web.app'}))
 // app.use(cors());
 app.use(express.json())
 

@@ -11,10 +11,10 @@ const port = process.env.PORT || 4000;
 
 
 // app.use(cors({origin: 'আপনার ফায়ারবেইজের লাইভ লিংক'})
-app.use(cors({origin:'https://assignment-12-authentication.web.app'}));
+app.use(cors());
 app.use(express.json())
 
-const uri = `mongodb+srv://${process.env.NAME}:${process.env.PASS}@computer-shop.oyvkd.mongodb.net/?retryWrites=true&w=majority";`;
+const uri = `mongodb+srv://admin:admin@computer-shop.oyvkd.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
@@ -157,14 +157,14 @@ async function run() {
        // update Quantity Using Put Api By id [http://localhost:4000/tools/${id}]
         app.put('/tools/:id' ,async(req,res) =>{
             const id = req.params.id;
-            console.log(id);
-            const updateQuantity = req.body;
+            // console.log(id);
+            const updateQuantity = req.body.newQuantity;
             console.log(updateQuantity);
             const filter = {_id:ObjectId(id)}
             const option = { upsert : true}
             const updateDoc ={
             $set:{
-                quantity : updateQuantity.newQuantity
+                quantity : updateQuantity
             }
             }
             const result = await computerCollection.updateOne(filter,updateDoc,option);

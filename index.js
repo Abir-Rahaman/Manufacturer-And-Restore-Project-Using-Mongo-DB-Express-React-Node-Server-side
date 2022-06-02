@@ -11,7 +11,7 @@ const port = process.env.PORT || 4000;
 
 
 // app.use(cors({origin: 'আপনার ফায়ারবেইজের লাইভ লিংক'})
-app.use(cors({origin:'https://assignment-12-authentication.web.app/'}));
+app.use(cors({origin:'https://assignment-12-authentication.web.app'}));
 app.use(express.json())
 
 const uri = `mongodb+srv://${process.env.NAME}:${process.env.PASS}@computer-shop.oyvkd.mongodb.net/?retryWrites=true&w=majority";`;

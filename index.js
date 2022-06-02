@@ -14,7 +14,7 @@ app.use(cors({origin:'https://assignment-12-authentication.web.app'}))
 // app.use(cors());
 app.use(express.json())
 
-const uri = `mongodb+srv://admin:admin@computer-shop.oyvkd.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.NAME}:${process.env.PASS}@computer-shop.oyvkd.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
